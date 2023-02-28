@@ -1,0 +1,5 @@
+node_modules
+# Keep environment variables out of version control
+# Bad practice to not ignore the configuration files, however since this is just a test project we'll commit it
+# redis.conf
+# users.acl

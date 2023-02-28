@@ -1,0 +1,76 @@
+version: '3.8'
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testDb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: p@ssw0rd!
+    volumes:
+      - volume_mysql:/var/lib/mysql
+    networks:
+      - nms_network
+    ports:
+      - 3306:3306
+  redis:
+    image: redis/redis-stack-server
+    volumes:
+      - ./redis/redis.conf:/etc/redis-stack.conf
+      - ./redis/users.acl:/etc/redis/users.acl
+    environment:
+      - REDIS_ARGS=--aclfile /etc/redis/users.acl
+    networks:
+      - nms_network
+    ports:
+      - 6379:6379
+  auth-service:
+    build:
+      context: ./auth-service-apollo
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+    networks:
+      - nms_network
+    ports:
+      - 3000:3000
+  mailer-service:
+    build:
+      context: ./mailer-service
+    restart: always
+    depends_on:
+      - rabbitmq
+    networks:
+      - nms_network
+    ports:
+      - 3001:3001
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbituser
+      - RABBITMQ_DEFAULT_PASS=rabbitpasswordshouldbelong
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq/mneasia
+    networks:
+      - nms_network
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+networks:
+  nms_network:
+    driver: bridge
+volumes:
+  volume_mysql:
+    driver: "local"    
+  volume_redis:
+    driver: "local"    

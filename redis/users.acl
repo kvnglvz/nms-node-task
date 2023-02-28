@@ -1,0 +1,2 @@
+user default on >put_the_same_password_here_from_env ~* &* +@all
+user nms on >put_the_same_password_here_from_env ~* &* +@all

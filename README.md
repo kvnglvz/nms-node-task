@@ -7,6 +7,7 @@
 ### Query
 - Me (email, username)
 
+#
 - Authorization should work by Bearer token header.
 - Tokens must have TTL.
 - Use Redis to store tokens.

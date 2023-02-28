@@ -7,8 +7,6 @@
 ### Query
 - Me (email, username)
 
----
-
 - Authorization should work by Bearer token header.
 - Tokens must have TTL.
 - Use Redis to store tokens.
@@ -16,7 +14,7 @@
 - The email should be sent by the separate process.
 - The process must receive an events about registrations through RabbitMQ.
 
-The task should be implemented using the next technologies:
+## The task should be implemented using the next technologies:
 1. NodeJS (Apollo server)
 2. MySQL
 3. Redis (for save )

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "rimraf dist && prisma generate && tsc",
+    "build": "rimraf dist && prisma migrate && prisma generate && tsc",
     "start": "npm run build && node ./dist/src/app.js",
     "start:dev": "tsx watch src/app.ts"
   },
